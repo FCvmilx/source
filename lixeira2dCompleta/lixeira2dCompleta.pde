@@ -819,5 +819,5 @@ void draw() {
     else                                                                    {desenhaBoca(0);}
     if ((keyPressed == true) && ((key == 'p') || (key == 'P')))             {tampaAberta(tampa); tampa++;}
     else                                                                    {tampaFechada(tampa); tampa = 0;}
-    
+    save("preview.png");
 }
