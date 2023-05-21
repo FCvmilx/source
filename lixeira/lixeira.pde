@@ -1,5 +1,11 @@
 import processing.sound.*;
 
+int f = -1;
+int palpE = 1;
+int piscaE = -1;
+int palpD = 1;
+int piscaD = -1;
+int tampa = 0;
 
 color white = color(255, 255, 255); color black = color(0, 0, 0);
 color gray = color(126, 126, 126, 2); color cinzaEscuro = color(82);
@@ -10,7 +16,7 @@ color lingua = color(240, 130, 124); color eye = color(46, 240, 140);
 
 int x, y, altura, largura;
 
-void tampaAberta() {
+void tampaAberta(int tampa) {
     //a altura da tampa aberta sera a metade da largura do retangulo base
 
     //retangulo tampa
@@ -52,8 +58,20 @@ void tampaAberta() {
     altura = 24;
     fill(c3);
     rect(x, y - 5, largura, altura, 5, 5, 20, 20);
-}
 
+    if (tampa > 120 && tampa < 240) {
+        println("1");
+    }
+    if (tampa > 240 && tampa < 480) {
+        println("2");
+    }
+    if (tampa > 480 && tampa < 960) {
+        println("3");
+    }
+    if (tampa > 960) {
+        println("4");
+    }
+}
 void tampaFechada() {
     //retangulo tampa
     y = (height/2) - (int)((312/2)* 1.2);
@@ -126,7 +144,6 @@ void base() {
     fill(cinzaEscuro);
     rect(x, y, largura, altura, 5, 5, 20, 20);
 }
-
 void desenhaBoca() {
     //boca
     largura = (int)(312 / 2);
@@ -155,108 +172,80 @@ void desenhaBoca() {
     rect(x, y + 33, largura, altura - 25, 0, 75, 15, 25);
 
 }
-void olhosAbertos() {
-    //olhos 
-    fill(white);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) + (largura/2)) - 1;
-    y = (height/2) - 50;
-    ellipse(x, y, largura, largura);
-
-    largura = (int)(312 / 3);
-    x = (int)((width/2) - (largura/2)) + 1;
-    y = (height/2) - 50;
-    ellipse(x, y, largura, largura);
-    
-    //iris
-    y = (height/2) - 50;
-    x = (int)((width/2) - (largura / 3));
-    largura = (int)(312 / 6);
-    fill(eye);
-    ellipse(x, y, largura, largura);
-    fill(black);
-    ellipse(x, y, largura / 3, largura /3);
-
-    y = (height/2) - 50;
-    x = (int)((width/2) + (largura*1.3));
-    largura = (int)(312 / 6);
-    fill(eye);
-    ellipse(x, y, largura, largura);
-    fill(black);
-    ellipse(x, y, largura / 3, largura /3);
-
-    //palpebras
-    fill(c2);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) + (largura/2)) - 1;
-    y = (height/2) + 40;
-    ellipse(x, y, largura + 25, largura);
-
-    largura = (int)(312 / 3);
-    x = (int)((width/2) - (largura/2)) + 1;
-    y = (height/2) + 40;
-    ellipse(x, y, largura + 25, largura);
-}
-
-void fechaOlhoD(int i) {
-    //olho
-    fill(white);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) - (largura/2)) + 1;
-    y = (height/2) - 50;
-    ellipse(x, y, largura, largura);
-
-    //iris
-    y = (height/2) - 50;
-    x = (int)((width/2) - (largura / 3));
-    largura = (int)(312 / 6);
-    fill(eye);
-    ellipse(x, y, largura, largura);
-    fill(black);
-    ellipse(x, y, largura / 3, largura /3);
-
-    //palpebras -------- fazer animação subindo e fechando o olho;
-    fill(c2);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) - (largura/2)) + 1;
-    if (i < 20) y = (height/2) + 40 - i;
-    ellipse(x, y, largura + 25, largura);
-}
-
-void fechaOlhoE(int i) {
-    //olhos
-    fill(white);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) + (largura/2)) - 1;
-    y = (height/2) - 50;
-    ellipse(x, y, largura, largura);
-
-    //iris
-    y = (height/2) - 50;
-    x = (int)((width/2) + (largura*1.3) / 2);
-    largura = (int)(312 / 6);
-    fill(eye);
-    ellipse(x, y, largura, largura);
-    fill(black);
-    ellipse(x, y, largura / 3, largura /3);
-
-    //palpebras -------- fazer animação subindo e fechando o olho;
-    fill(c2);
-    largura = (int)(312 / 3);
-    x = (int)((width/2) + (largura/2)) - 1;
-    if (i < 20) {
-        y = (height/2) + 40 - i;
-        ellipse(x, y, largura + 25, largura);
-    }
-    else {
-        fill(c2);
+void olhosAbertos(int esquerdo, int direito, int fechados) { 
+    if (fechados == 0) {
+        //olhos 
+        fill(white);
         largura = (int)(312 / 3);
         x = (int)((width/2) + (largura/2)) - 1;
         y = (height/2) - 50;
         ellipse(x, y, largura, largura);
+
+        largura = (int)(312 / 3);
+        x = (int)((width/2) - (largura/2)) + 1;
+        y = (height/2) - 50;
+        ellipse(x, y, largura, largura);
+        
+        //iris
+        y = (height/2) - 50;
+        x = (int)((width/2) - (largura / 3));
+        largura = (int)(312 / 6);
+        fill(eye);
+        ellipse(x, y, largura, largura);
+        fill(black);
+        ellipse(x, y, largura / 3, largura /3);
+
+        y = (height/2) - 50;
+        x = (int)((width/2) + (largura*1.3));
+        largura = (int)(312 / 6);
+        fill(eye);
+        ellipse(x, y, largura, largura);
+        fill(black);
+        ellipse(x, y, largura / 3, largura /3);
+
+        //palpebras
+        fill(c2);
+        largura = (int)(312 / 3);
+        x = (int)((width/2) + (largura/2)) - 1;
+        y = (height/2) + 40;
+        ellipse(x, y, largura + 25, largura);
+
+        largura = (int)(312 / 3);
+        x = (int)((width/2) - (largura/2)) + 1;
+        y = (height/2) + 40;
+        ellipse(x, y, largura + 25, largura);
+    }
+    else{
+        fill(c2);
+        largura = (int)(312 / 3);
+        x = (int)((width/2) + (largura/2)) - 1;
+        y = (height/2) - 50;
+        ellipse(x, y, largura + 2, largura + 2);
+
+        largura = (int)(312 / 3);
+        x = (int)((width/2) - (largura/2)) + 1;
+        y = (height/2) - 50;
+        ellipse(x, y, largura + 2, largura + 2);
+
+        //fazer palpebras marcadas para o estado fechado/
+    }
+
+    if (esquerdo == -1) {
+        fill(c2);
+        largura = (int)(312 / 3);
+        x = (int)((width/2) - (largura/2)) + 1;
+        y = (height/2) - 50;
+        ellipse(x, y, largura + 2, largura + 2);
+    }
+
+    if (direito == -1) {
+        fill(c2);
+        largura = (int)(312 / 3);
+        x = (int)((width/2) + (largura/2)) - 1;
+        y = (height/2) - 50;
+        ellipse(x, y, largura + 2, largura + 2);
     }
 }
-
 void Fundo() {
     int x, y, largura, altura;
     
@@ -381,26 +370,30 @@ void setup() {
     background(255, 255, 255);
 
 }
-// int palpE = 0;
-// int palpD = 0;
 void draw() {
-
+    frameRate(5);
     // background
     Fundo();
     noStroke();
     base();
-
-    // if ((keyPressed == true) && (key == '4'))                           {fechaOlhoE(palpE += palpE+2);}
-    // else if ((keyPressed == true) && (key == '6'))                      {fechaOlhoD(palpD += palpD+2);}
-    // else if ((keyPressed == true) && (key == '6') && (key == '4'))      {fechaOlhoD(palpD += palpD+2);fechaOlhoE(palpE += palpE+2);}
-    // else                                                                {olhosAbertos(); palpD = palpE = 0;}
-    olhosAbertos();
-
-    desenhaBoca();
+    if (keyPressed == true)                                             {f = -1; piscaD = piscaE = -1;}
     
-    if ((keyPressed == true) && ((key == 'p') || (key == 'P')))         {tampaAberta();}
-    else                                                                {tampaFechada();}
+    olhosAbertos(palpE,palpD,0);
+    if ((keyPressed == true) && ((key == 'p') || (key == 'P')))         {tampaAberta(tampa); tampa++;}
+    else                                                                {tampaFechada(); tampa = 0;}
+    
+    if (keyPressed == true) {
+        if (key == '4')                                                 {piscaE *= -1;}
+        else if ((keyPressed == true) && (key == '6'))                  {piscaD *= -1;}
+    }
 
+    if (piscaE == 1)                                                    {palpE *= -1;}
+    else                                                                {palpE = 1;}
+    if (piscaD == 1)                                                    {palpD *= -1;}
+    else                                                                {palpD = 1;}
 
-
+    if ((keyPressed == true) && ((key == 'f') || (key == 'F')))         { f *= -1;} //press F to pray respect
+    if (f == 1)                                                         {olhosAbertos(0,0,1);}
+    
+    desenhaBoca();
 }

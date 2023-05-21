@@ -1,0 +1,10 @@
+FUNCIONALIDADES PARA ADICIONAR:
+
+    DESENHAR AS PALPEBRAS; __________________________________________________________ COMPLETO
+
+    COLOCAR O AUDIO DA TAMPA ABRINDO E TAMPA FECHANDO; ______________________________ COMPLETO
+
+    COLOCAR OS LIXOS A MEDIDA QUE "P" FOR PRESSIONADO; ______________________________ COMPLETO
+
+    MODIFICAR AS EXPRESSÕES FACIAIS A MEDIDA QUE "p" FOR PRESSIONADO; _______________ COMPLETO
+    
