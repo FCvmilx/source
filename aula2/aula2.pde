@@ -4,10 +4,11 @@ color laranjaPastelEscuro = color(235, 156, 82, 50);
 color vermelhoMedio = color(148, 26, 28);
 color verdeEscuro = color(0, 100, 0);
 color marrom = color(75, 54, 33);
-
+color ambiente = color(#FAF9B2);
 void setup() {
-    size(1024, 720);
+    size(1024, 720, P3D);
     background(azulClaro);
+    noStroke();
 }
 
 void retangulo(int x, int y, int w, int h, color c) {
@@ -16,6 +17,16 @@ void retangulo(int x, int y, int w, int h, color c) {
 }
 
 void draw() {
+    ambientLight(155, 155, 155);
+    directionalLight(250, 250, 176, -1, -1, 1);
+    spotLight(0, 102, 0, 80, 20, 40, -1, 0, 0, PI/2, 2);
+    if (mouseX < 400) {
+        pointLight(255, 0, 0, mouseX, mouseY, 36);
+    }
+    else {
+        pointLight(0, 0, 255, mouseX, mouseY, 36);
+    }
+
     int x1, x2, x3, y1, y2, y3;
     int x, y, altura, largura;
     // predio
