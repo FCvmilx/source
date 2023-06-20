@@ -821,3 +821,5 @@ void draw() {
     else                                                                    {tampaFechada(tampa); tampa = 0;}
     save("preview.png");
 }
+
+
