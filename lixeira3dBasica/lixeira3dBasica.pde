@@ -4,6 +4,7 @@ int x, y, altura, largura;                              int f = -1;
 int palpE = 1;                                          int piscaE = 0;
 int palpD = 1;                                          int piscaD = 0;
 int tampa = 0;                                          int boca = 0;
+int iluminacao = 100;                                   int mz = 0; 
 
 color white = color(255, 255, 255);                     color black = color(0, 0, 0);
 color gray = color(126, 126, 126, 2);                   color cinzaEscuro = color(82);
@@ -22,8 +23,6 @@ void base() {
     translate(500, 500, 0);
     box(312, 312*1.2, 312);
     
-    //pedal
-
 
     //rodas
     translate(-85, 206, -85);   
@@ -64,6 +63,14 @@ void base() {
 }
 
 void olhosAbertos(int e, int d, int f) {
+    if (f == 0) {
+    }
+    else {
+    }
+    if (e % 60 >= 30) {
+    }
+    if (d % 60 >= 30) {
+    }
 
 }
 
@@ -72,9 +79,17 @@ void desenhaBoca(int boca) {
 }
 
 void tampaAberta(int tampa) {
+
+    //pedal
+    fill(c2sombra);
+    translate(0, (312/2), 0);
+    box(104, 50, 313);
+    fill(c3);
+    translate(0, 10, 0);
+    box(312/5, 20, 350);
     rotateX(PI/2);
     fill(c3);
-    translate(0, -312*0.5, 360);
+    translate(0, -200, 360 + 156);
     box(352, (int)((312 * 1.2) / 10), 352);
     fill(c3sombra);
     translate(0, 10, 0);
@@ -83,7 +98,22 @@ void tampaAberta(int tampa) {
     if (tampa == 0) {
         if(!abre.isPlaying())   abre.play();
     }
-
+    // if (tampa >= 120 && tampa < 360) {
+    //     estado1();
+    //     exp1();
+    // }
+    // if (tampa >= 360 && tampa < 480) {
+    //     estado2();
+    //     estado1();
+    //     exp2();
+    // }
+    // if (tampa >= 480) {
+    //     estado3();
+    //     estado2();
+    //     estado1();
+    //     exp3();
+    // }
+    
 }
 
 void tampaFechada(int som) {
@@ -98,6 +128,13 @@ void tampaFechada(int som) {
     fill(c3sombra);
     translate(0, 10, 0);
     box(312 / 3, (int)((312 * 1.2) / 10) - 10, 354);
+
+    //pedal
+    fill(c2sombra);
+    translate(0, 330, 0);
+    box(104, 50, 313);
+    fill(c3);
+    box(312/5, 20, 360);
 }
 void setup() {
     size(1024, 1024, P3D); 
@@ -107,34 +144,42 @@ void setup() {
 }
 
 void draw() {
-   if (mousePressed) {
-        if (mouseButton == LEFT) {
-
-            background(100);
-            camera(mouseX, mouseY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
-        }
-        if (mouseButton == RIGHT) {
-            background(100);
-            ortho();
-        }
-    }
     noStroke();
-    ambientLight(155, 155, 155);
+    camera(width/2, height/2, (height/2) / tan(PI/6)  + mz, width/2, height/2, 0, 0, 1, 0);
+    if (mousePressed) {
+
+        if (mouseButton == LEFT) {
+            background(100);
+            camera(mouseX, mouseY, (height/2) / tan(PI/6) + mz, width/2, height/2, 0, 0, 1, 0);
+        }
+
+        if (mouseButton == RIGHT) {
+            pointLight(255, 255, 255, mouseX, mouseY, 300);
+        }
+
+    }
+    if (keyPressed){
+        if (key == '2' || keyCode == DOWN)                                  {iluminacao--;}
+        if (key == '8' || keyCode == UP)                                    {iluminacao++;}
+        if (key == 'o' || key == 'O')                                       {background(100); ortho();}
+        if (key == 'R' || key == 'r')                                       {iluminacao = 100; mz = 0;}
+    }
+
+    int luz = 255 * iluminacao/100;
+    ambientLight(luz, luz, luz);
     directionalLight(255, 255, 255, -1, 1, -1);
     spotLight(255, 255, 255, 80, 20, 40, 0, 0, 100, PI/2, 2);
+    
     rotateY(0.25);
 
    
-
-    
-    
-
     Fundo();
     base();
     if (keyPressed == true)                                                 {f = -1; piscaD = piscaE = -1;}
     
-    // olhosAbertos(palpE,palpD,0);
+    olhosAbertos(palpE,palpD,0);
     // if (keyPressed == true)                                                 {
+    
     //     if (key == '4' || keyCode == LEFT)                                  {piscaE *= -1;}
     //     else if ((keyPressed == true) && (key == '6' || keyCode == RIGHT))  {piscaD *= -1;}
     // }
@@ -151,4 +196,9 @@ void draw() {
     else                                                                    {tampaFechada(tampa); tampa = 0;}
     save("preview.png");
 
+}
+
+void mouseWheel(MouseEvent event) {
+  float e = event.getCount();
+  mz += 4*e;
 }
